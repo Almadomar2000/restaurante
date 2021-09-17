@@ -1,0 +1,3 @@
+criminoso: id_criminoso, nome, cpf, crimes que cometeu, idade;
+vitima: id_vitima, nome, cpf, idade;
+crime: id_crime, acontecido, arma_crime

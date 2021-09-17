@@ -1,0 +1,10 @@
+restaurante: id_restaurante, nome, cnpj, numero, descrição;
+cardapio: id_cardapio, descrição, informar o prato do dia;
+cliente: id_cliente, id_cardapio, id_conta, rg, cpf, nome, telefone, endereço;
+mesas: id_mesas, capacidade, uma conta por mesa, status da mesa;
+reservas: id_reservas, id_mesas, id_cliente, data da reserva, data prevista para o checkin, quantidade de pessoas informadas, funcionario responsavel, data do checkout;
+conta: id_conta, id_cliente;
+pedido: id_pedido, id_cliente,id_itens_pedido, id_statusPedido, valor_pedido, cnpjRestaurante;
+itens_pedido: id_itens_pedido, id_pedido, valor, observação, descrição;
+status_pedido: id_status_pedido, id_pedido, descrição;
+tipo_pagamento: id_tipo_pagamento, id_pedido, fechar_pedido, tipo
