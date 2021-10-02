@@ -6,14 +6,14 @@ idioma char(5) not null
 
 create table estados (
 id_estado bigint unsigned primary key not null unique auto_increment,
-id_pais bigint unsigned not null unique auto_increment,
+id_pais bigint unsigned not null unique,
 nome varchar(100) not null,
 foreign key (id_pais) references pais(id_pais)
 );
 
 create table clientes (
 id_cliente bigint unsigned primary key not null unique auto_increment,
-id_cidade bigint unsigned not null unique auto_increment,
+id_cidade bigint unsigned not null unique,
 razao_social varchar(100) not null,
 nome_fantasia varchar(100) not null,
 cnpj char(14) not null,
@@ -34,8 +34,8 @@ endereco varchar(100) not null
 
 create table vendas (
 id_venda bigint unsigned primary key not null unique auto_increment,
-id_vendedor bigint unsigned not null unique auto_increment,
-id_cliente bigint unsigned not null unique auto_increment,
+id_vendedor bigint unsigned not null unique,
+id_cliente bigint unsigned not null unique,
 data_venda datetime not null,
 situacao char(1) not null,
 foreign key (id_vendedor) references vendedores(id_vendedor),
@@ -55,7 +55,7 @@ descricao varchar(100) not null
 
 create table produtos (
 id_produto bigint unsigned primary key not null unique auto_increment,
-id_grupo_produto bigint unsigned not null unique auto_increment,
+id_grupo_produto bigint unsigned not null unique,
 descricao varchar(100) not null,
 custo decimal(11,2) not null,
 saldo_estoque decimal(11,2) not null,
@@ -65,9 +65,9 @@ foreign key (id_grupo_produto) references grupo_produtos(id_grupo_produto)
 
 create table item_vendas (
 id_item_venda bigint unsigned primary key not null unique auto_increment,
-id_venda bigint unsigned not null unique auto_increment,
-id_produto bigint unsigned not null unique auto_increment,
-id_unidade_medida bigint unsigned not null unique auto_increment,
+id_venda bigint unsigned not null unique,
+id_produto bigint unsigned not null unique,
+id_unidade_medida bigint unsigned not null unique,
 preco_unitario decimal(11,2) not null,
 quantidade decimal(11,2) not null,
 total decimal(11,2) not null,
