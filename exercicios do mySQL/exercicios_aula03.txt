@@ -6,14 +6,21 @@ idioma char(5) not null
 
 create table estados (
 id_estado bigint unsigned primary key not null unique auto_increment,
-id_pais bigint unsigned not null unique,
+id_pais bigint unsigned not null,
 nome varchar(100) not null,
 foreign key (id_pais) references pais(id_pais)
 );
 
+create table cidades (
+id_cidade bigint unsigned primary key not null unique auto_increment,
+id_estado bigint unsigned not null,
+nome varchar(100) not null,
+foreign key (id_estado) references estados(id_estado)
+);
+
 create table clientes (
 id_cliente bigint unsigned primary key not null unique auto_increment,
-id_cidade bigint unsigned not null unique,
+id_cidade bigint unsigned not null,
 razao_social varchar(100) not null,
 nome_fantasia varchar(100) not null,
 cnpj char(14) not null,
@@ -34,8 +41,8 @@ endereco varchar(100) not null
 
 create table vendas (
 id_venda bigint unsigned primary key not null unique auto_increment,
-id_vendedor bigint unsigned not null unique,
-id_cliente bigint unsigned not null unique,
+id_vendedor bigint unsigned not null,
+id_cliente bigint unsigned not null,
 data_venda datetime not null,
 situacao char(1) not null,
 foreign key (id_vendedor) references vendedores(id_vendedor),
@@ -55,7 +62,7 @@ descricao varchar(100) not null
 
 create table produtos (
 id_produto bigint unsigned primary key not null unique auto_increment,
-id_grupo_produto bigint unsigned not null unique,
+id_grupo_produto bigint unsigned not null,
 descricao varchar(100) not null,
 custo decimal(11,2) not null,
 saldo_estoque decimal(11,2) not null,
@@ -65,9 +72,9 @@ foreign key (id_grupo_produto) references grupo_produtos(id_grupo_produto)
 
 create table item_vendas (
 id_item_venda bigint unsigned primary key not null unique auto_increment,
-id_venda bigint unsigned not null unique,
-id_produto bigint unsigned not null unique,
-id_unidade_medida bigint unsigned not null unique,
+id_venda bigint unsigned not null,
+id_produto bigint unsigned not null,
+id_unidade_medida bigint unsigned not null,
 preco_unitario decimal(11,2) not null,
 quantidade decimal(11,2) not null,
 total decimal(11,2) not null,
@@ -75,3 +82,50 @@ foreign key (id_venda) references vendas(id_venda),
 foreign key (id_produto) references produtos(id_produto),
 foreign key (id_unidade_medida) references unidade_medidas(id_unidade_medida)
 );
+
+insert into pais (nome, idioma)
+values ("Brasil", "PT_BR");
+
+insert into pais (nome, idioma)
+values ("EUA", "EN");
+
+insert into estados (id_pais, nome)
+values (1, "Santa Catarina");
+
+insert into estados (id_pais, nome)
+values (1, "Paraná");
+
+insert into estados (id_pais, nome)
+values (1, "Rio Grande do Sul");
+
+insert into estados (id_pais, nome)
+values (1, "São Paulo");
+
+insert into estados (id_pais, nome)
+values (2, "California");
+
+insert into cidades (id_estado, nome)
+values (1, "joaçaba");
+
+insert into cidades (id_estado, nome)
+values (1, "Joinville");
+
+insert into cidades (id_estado, nome)
+values (1, "Florianópolis");
+
+insert into cidades (id_estado, nome)
+values (2, "Curitiba");
+
+insert into cidades (id_estado, nome)
+values (2, "Londrina");
+
+insert into cidades (id_estado, nome)
+values (3, "Porto Alegre");
+
+insert into cidades (id_estado, nome)
+values (4, "São Paulo");
+
+insert into cidades (id_estado, nome)
+values (5, "Montain View");
+
+select * from clientes
