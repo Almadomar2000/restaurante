@@ -82,13 +82,13 @@ foreign key (id_venda) references vendas(id_venda),
 foreign key (id_produto) references produtos(id_produto),
 foreign key (id_unidade_medida) references unidade_medidas(id_unidade_medida)
 );
-
+----------------------------------------
 insert into pais (nome, idioma)
 values ("Brasil", "PT_BR");
 
 insert into pais (nome, idioma)
 values ("EUA", "EN");
-
+----------------------------------------
 insert into estados (id_pais, nome)
 values (1, "Santa Catarina");
 
@@ -103,7 +103,7 @@ values (1, "São Paulo");
 
 insert into estados (id_pais, nome)
 values (2, "California");
-
+----------------------------------------
 insert into cidades (id_estado, nome)
 values (1, "joaçaba");
 
@@ -127,5 +127,29 @@ values (4, "São Paulo");
 
 insert into cidades (id_estado, nome)
 values (5, "Montain View");
-
+----------------------------------------
 select * from clientes
+----------------------------------------
+select * from clientes 
+where situacao = 'A' de ativado "inseri dados para poder saber se tinha dado certo"
+----------------------------------------
+select * from vendas
+where data_venda > '2012-02-01'
+----------------------------------------
+select * from item_vendas
+where preco_unitario >= 1;
+
+select * from item_vendas
+where quantidade >= 1;
+
+select * from item_vendas
+where total >= 1; 
+----------------------------------------
+update vendas set situacao='F'
+where data_venda < '2012-04-01'"talvez seja isso"
+----------------------------------------
+update item_vendas set preco_unitario = '3700'
+where id_item_venda = 1 
+----------------------------------------
+delete from clientes 
+where situacao = 'I'
