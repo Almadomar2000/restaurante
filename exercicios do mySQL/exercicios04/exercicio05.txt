@@ -1,0 +1,57 @@
+select data_venda from vendas
+----------------------------------------------------------------------
+select vendas.id_vendedor, vendedores.nome from vendas
+    inner join vendedores
+    on vendedores.id_vendedor = vendas.id_vendedor
+----------------------------------------------------------------------
+select vendas.id_cliente, clientes.razao_social from vendas
+    inner join clientes
+    on clientes.id_cliente = vendas.id_cliente
+----------------------------------------------------------------------
+select clientes.id_cidade, cidades.nome from clientes
+	inner join cidades
+	on clientes.id_cidade = cidades.id_cidade
+----------------------------------------------------------------------
+select clientes.endereco, estados.nome from clientes
+	inner join estados
+	on clientes.endereco = estados.nome
+----------------------------------------------------------------------
+alter table clientes 
+add pais varchar(45) not null
+
+select clientes.pais, pais.nome from clientes
+	inner join pais
+	on clientes.pais = pais.nome
+----------------------------------------------------------------------
+alter table item_vendas
+add descricao varchar(45) not null
+
+select produtos.descricao, item_vendas.descricao from produtos
+	inner join item_vendas
+	on produtos.descricao = item_vendas.descricao
+----------------------------------------------------------------------
+select produtos.custo, item_vendas.preco_unitario from produtos
+	inner join item_vendas
+	on produtos.custo = item_vendas.preco_unitario
+----------------------------------------------------------------------
+alter table produtos
+add medida varchar(45) not null
+ 
+select unidade_medidas.descricao, produtos.medida from unidade_medidas
+	inner join produtos
+	on unidade_medidas.descricao = produtos.medida
+----------------------------------------------------------------------
+alter table vendas
+add preco varchar(45) not null
+
+select item_vendas.preco_unitario, vendas.preco from item_vendas
+	inner join vendas
+	on item_vendas.preco_unitario = vendas.preco
+----------------------------------------------------------------------
+alter table vendas 
+add total varchar(50) not null
+
+select item_vendas.total, vendas.total from item_vendas
+	inner join vendas
+	on item_vendas.total = vendas.total
+----------------------------------------------------------------------
