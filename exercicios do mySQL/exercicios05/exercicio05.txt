@@ -1,0 +1,275 @@
+create table paises (
+id_pais bigint unsigned not null unique primary key auto_increment,
+nome varchar(100) not null,
+sigla varchar(3) not null
+);
+
+create table produtos (
+id_produto bigint unsigned not null unique primary key auto_increment,
+nome varchar(150) not null
+);
+
+create table estados (
+id_estado bigint unsigned not null unique primary key auto_increment,
+id_pais bigint unsigned not null,
+nome_ varchar(100) not null,
+sigla varchar(3) not null,
+foreign key (id_pais) references paises(id_pais)
+);
+
+create table cidades (
+id_cidade bigint unsigned not null unique primary key auto_increment,
+id_estado bigint unsigned not null,
+nome varchar(100) not null,
+foreign key (id_estado) references estados(id_estado)
+);
+
+create table clientes (
+id_cliente bigint unsigned not null unique primary key auto_increment,
+id_cidade bigint unsigned not null,
+nome_fantasia varchar(150),
+razao_social varchar(150) not null,
+cnpj varchar(18) not null,
+telefone varchar(11),
+email varchar(100)not null,
+foreign key (id_cidade) references cidades(id_cidade)
+);
+
+create table motoristas (
+id_motorista bigint unsigned not null unique primary key auto_increment,
+id_cliente bigint unsigned not null,
+nome varchar(150) not null,
+email varchar(150) not null,
+cpf varchar(11) not null,
+nro_cnh varchar(50) not null,
+nivel_habilitacao varchar(2),
+foreign key (id_cliente) references clientes(id_cliente)
+);
+
+create table viagens (
+id_viagem bigint unsigned not null unique primary key auto_increment,
+id_cliente bigint unsigned not null,
+id_motorista bigint unsigned not null,
+id_cidade_origem bigint unsigned not null,
+id_cidade_destino bigint unsigned not null,
+valor_carga decimal (12,2),
+foreign key (id_cliente) references clientes(id_cliente),
+foreign key (id_motorista) references motoristas(id_motorista),
+foreign key (id_cidade_destino) references cidades(id_cidade),
+foreign key (id_cidade_origem) references cidades(id_cidade)
+);
+
+create table veiculos (
+id_veiculo bigint unsigned not null unique primary key auto_increment,
+id_cliente bigint unsigned not null,
+placa varchar(9) not null,
+renavan varchar(100) not null,
+chassi varchar(200) not null
+);
+
+create table produtos_viagens (
+id_produto_viagem bigint unsigned not null unique primary key auto_increment,
+id_produto bigint unsigned not null,
+id_viagem bigint unsigned not null,
+foreign key (id_produto) references produtos(id_produto),
+foreign key (id_viagem) references viagens(id_viagem)
+);
+
+------------------------------------------------------------------------------
+insert into paises (nome, sigla)
+values ("Brasil", "BR");
+------------------------------------------------------------------------------
+insert into estados (id_pais, nome, sigla)
+values (1, "Santa Catarina", "SC"),
+(1, "Minas Gerais", "MG"),
+(1, "Mato Grosso do Sul", "MS");
+------------------------------------------------------------------------------
+insert into cidades (id_estado, nome)
+values (31, "Concórdia"),
+(31, "Florianópolis"),
+(31, "Joinville"),
+(31, "Blumenau"),
+(31, "Chapecó"),
+(32, "Belo Horizonte"),
+(32, "uberlandia"),
+(32, "Juiz de Fora"),
+(32, "Ouro Preto"),
+(32, "Ribeirão das Neves"),
+(33, "Campo Grande"),
+(33, "Ponta Porã"),
+(33, "Três Lagoas"),
+(33, "Chapadão do Sul"),
+(33, "Três Lagoas");
+------------------------------------------------------------------------------
+insert into clientes (id_cidade, nome_fantasia, razao_social, cnpj, telefone, email)
+values ("16", "Morto", "Telefônica Brasil S/A", "79207041000103", "92345-6789", "sei_la@gmail.com"),
+("19", "uatI", "uatI Unibanco Banco Múltiplo S.A.", "77630603000100", "91234-5678", "não_sei@gmail.com"),
+("26", "ContaVermelha", "Software Ltda.", "09479508000199", "92345-6789", "sei_não@gmail.com");
+------------------------------------------------------------------------------
+insert into usuarios(id_cliente, nome, email, cpf, senha)
+values 
+(4, "chaolin matador de porco", "chaolinmatadordeporco@gmail.com", "12345678901", "12345"),
+(4, "serjão berrantero", "serjão@gmail.com", "12345678910", "54321"),
+(5, "lucas", "lucas@gmail.com", "98765432120", "22413"),
+(5, "irineu", "irineu@gmail.com", "98765432102", "31422"),
+(6, "joão cleber", "joão@gmail.com", "45786434523", "72643"),
+(6, "Viniccius13", "viniccius13@gmail.com", "76543219832", "34627");
+------------------------------------------------------------------------------
+insert into veiculos (id_cliente, placa, renavan, chassi)
+values
+(4, "sei lá", "123456789", "carro"),
+(4, "sei lá", "123456788", "carro"),
+(4, "sei lá", "123456787", "carro"),
+(5, "lá sei", "123456786", "carro"),
+(5, "lá sei", "123456785", "caminhão"),
+(5, "lá sei", "123456784", "moto"),
+(6, "num sei", "123456783", "carro"),
+(6, "num sei", "123456782", "jeep"),
+(6, "num sei", "123456781", "land hover");
+------------------------------------------------------------------------------
+insert into produtos (nome)
+values ("salame"),
+("sanduiche"),
+("sucos");
+------------------------------------------------------------------------------
+insert into motoristas (id_cliente, nome, email, cpf, nro_cnh, nivel_habilitacao)
+values ("4", "juca", "juca@gmail.com", "93548539494", "123456789102", "7"),
+("4", "eduardo", "eduardo@gmail.com", "93548539495", "123456789103", "6"),
+("4", "leonardo", "leonardo@gmail.com", "93548539496", "123456789104", "8");
+------------------------------------------------------------------------------
+insert into viagens (id_cliente, id_motorista, id_cidade_origem, id_cidade_destino, valor_carga)
+values ("4", "1", "16", "21", "11"),
+("4", "1", "17", "22", "11"),
+("4", "2", "18", "23", "11"),
+("4", "2", "19", "24", "11"),
+("4", "3", "20", "25", "11");
+------------------------------------------------------------------------------
+select usuarios.id_cliente as usuario, viagens.id_cliente as viagem from usuarios
+inner join viagens
+------------------------------------------------------------------------------
+select viagens.id_cidade_destino as cidade_destino, cidades.id_cidade as cidade from viagens
+inner join cidades
+where id_cidade_destino = 23 
+"não sei pq mas o id ficou um pouco errado"
+------------------------------------------------------------------------------
+select produtos.id_produto as produto, viagens.id_viagem as viagens from produtos 
+inner join viagens 
+where id_produto = 2
+------------------------------------------------------------------------------
+select produtos.id_produto as produto, cidades.id_cidade as cidade_origem from cidades
+inner join produtos
+where id_produto = 24 
+"tbm ta um pouco errado"
+------------------------------------------------------------------------------
+select motoristas.id_motorista as motorista, usuarios.id_usuario as usuario from motoristas
+inner join usuarios
+where id_motorista = 1 
+and id_usuario = 2
+------------------------------------------------------------------------------
+select viagens.valor_carga as valor_total from viagens 
+where valor_carga >= 50000
+------------------------------------------------------------------------------
+select veiculos.id_veiculo, cidades.id_cidade from cidades
+inner join veiculos
+where id_cidade = 5
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+SEGUNDA ATIVIDADE:
+
+create table planos (
+id_plano bigint unsigned not null unique primary key auto_increment,
+nome varchar(100) not null
+);
+
+create table especialidades (
+id_especialidade bigint unsigned not null unique primary key auto_increment,
+nome varchar(100) not null
+);
+
+create table clientes (
+id_cliente bigint unsigned not null unique primary key auto_increment,
+id_plano bigint unsigned,
+nome varchar(100) not null,
+cpf varchar(11) not null unique,
+nro_plano varchar(100),
+telefone varchar(14) not null,
+email varchar(100),
+foreign key (id_plano) references planos(id_plano)
+);
+
+create table medicos (
+id_medico bigint unsigned not null unique primary key auto_increment,
+id_especialidade bigint unsigned not null,
+nome varchar(100) not null,
+crm varchar(50) not null,
+cpf varchar(11) not null unique,
+telefone varchar(14) not null,
+email varchar(100),
+foreign key (id_especialidade) references especialidades(id_especialidade)
+);
+
+create table consultas (
+id_consulta bigint unsigned not null unique primary key auto_increment,
+id_medico bigint unsigned not null,
+id_cliente bigint unsigned not null,
+agendamento datetime,
+valor decimal(10,2),
+foreign key (id_medico) references medicos(id_medico),
+foreign key (id_cliente) references clientes(id_cliente)
+);
+------------------------------------------------------------------------------
+insert into planos (nome)
+values ("são camilo"),
+("unimed"),
+("unimed")
+------------------------------------------------------------------------------
+insert into especialidades (nome)
+values ("cirurgião"),
+("imunologia"),
+("fisiologia");
+------------------------------------------------------------------------------
+insert into medicos (id_especialidade, nome, crm, cpf, telefone, email)
+values ("1", "Drauzio Varella", "sei lá", "12345678910", "12345678910123", "drauzio_varella@gmail.com"),
+("2", "Alessandro", "vai saber", "12345678911", "12345678910124", "alessandro@gmail.com"),
+("3", "joão", "não sei", "12345678912", "12345678910125", "joão@gmail.com")
+------------------------------------------------------------------------------
+insert into clientes (id_plano, nome, cpf, nro_plano, telefone, email)
+values ("1", "eduardo", "12345678913", "10", "12345678910236", "eduardo@gmail.com"),
+("1", "sandro", "12345678914", "11", "12345678910237", "sandro@gmail.com"),
+("2", "tia may", "12345678915", "12", "12345678910238", "tia_may@gmail.com"),
+("3", "peter parker", "12345678916", "13", "12345678910239", "peter_parker@gmail.com")
+------------------------------------------------------------------------------
+insert into consultas (id_medico, id_cliente, agendamento, valor)
+values ("1", "4", "2021-11-01", "100"),
+("2", "2", "2021-11-02", "200"),
+("1", "1", "2021-11-03", "250"),
+("3", "3", "2021-11-04", "200"),
+("3", "2", "2021-11-05", "230"),
+("2", "4", "2021-11-06", "210"),
+("1", "1", "2021-11-07", "200"),
+("1", "3", "2021-11-08", "150")
+------------------------------------------------------------------------------
+select medicos.id_medico, consultas.agendamento from medicos 
+inner join consultas 
+where agendamento between "2021-10-01" and "2021-10-30" and id_medico = 2 
+está dando erro 1052 e n seu como arrumar 
+------------------------------------------------------------------------------
+select medicos.id_medico, consultas.agendamento from medicos 
+inner join consultas 
+where id_Medico = 3 
+------------------------------------------------------------------------------
+select clientes.nro_plano , consultas.id_consulta from clientes
+inner join consultas 
+where id_plano = null
+------------------------------------------------------------------------------
+select clientes.id_cliente , medicos.id_medico from clientes
+inner join medicos 
+where id_cliente = 1
+------------------------------------------------------------------------------
