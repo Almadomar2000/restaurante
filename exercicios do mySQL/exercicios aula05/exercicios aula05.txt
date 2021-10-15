@@ -1,0 +1,26 @@
+------------------------------------------------------------------------------
+select distinct nome, quantidade_vendas from vendedores 
+------------------------------------------------------------------------------
+select distinct  id_venda, situacao, total, preco from vendas 
+order by id_venda asc
+------------------------------------------------------------------------------
+select pais.nome as nome_pais , estados.nome as nome_estado , cidades.nome as nome_cidade , vendas.quantidade_vendas from cidades, estados, pais, vendas;
+------------------------------------------------------------------------------
+select clientes.razao_social , vendas.total from clientes
+inner join vendas
+where total > 5000
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
