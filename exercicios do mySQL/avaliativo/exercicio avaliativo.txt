@@ -1,0 +1,110 @@
+exercicio avaliativo aula 06
+
+------------------------------------------------------------------------------
+create table if not exists matriculas (
+id_matricula bigint unsigned primary key not null unique auto_increment,
+semestre char(7),
+data_inicio_semestre date not null,
+data_fim_semestre date not null
+);
+
+create table if not exists cursos (
+id_curso bigint unsigned primary key not null unique auto_increment,
+id_matricula bigint unsigned not null,
+nome varchar(150) not null
+);
+
+create table if not exists disciplinas (
+id_disciplina bigint unsigned primary key not null unique auto_increment,
+nome varchar(150) not null
+);
+
+create table if not exists turmas (
+id_turma bigint unsigned not null unique primary key auto_increment,
+id_disciplina bigint unsigned not null,
+id_matricula bigint unsigned not null,
+foreign key (id_disciplina) references disciplinas(id_disciplina),
+foreign key (id_matricula) references matriculas(id_matricula)
+);
+
+create table if not exists alunos (
+id_aluno bigint unsigned not null unique primary key auto_increment,
+id_turma bigint unsigned not null,
+id_matricula bigint unsigned not null unique,
+nome varchar(150) not null,
+endereco varchar(150) not null,
+email varchar(100) not null,
+situacao varchar(200) not null,
+curso varchar(100) not null,
+foreign key (id_turma) references turmas(id_turma),
+foreign key (id_matricula) references matriculas(id_matricula)
+);
+------------------------------------------------------------------------------
+
+
+01)-Escreva o script SQL para popular todas as tabelas do banco criado com dados
+fictícios.
+
+
+------------------------------------------------------------------------------
+insert into cursos (id_matricula, nome)
+values ("1", "Jovem Programador")
+------------------------------------------------------------------------------
+insert into matriculas (semestre, data_inicio_semestre, data_fim_semestre)
+values ("2021-01", "2021-07-01", "2021-12-30")
+------------------------------------------------------------------------------
+insert into disciplinas (nome)
+values ("banco de dados"),
+("curso Jovem Programador")
+------------------------------------------------------------------------------
+insert into turmas (id_disciplina, id_matricula)
+values (1, 1)
+------------------------------------------------------------------------------
+insert into alunos (id_turma, id_matricula, id_curso, nome, endereco, email, situacao)
+values (1 ,1 ,1 , "cleber", "rua xia", "cleber@gmail.com", "tudo certo")
+------------------------------------------------------------------------------
+
+
+02)-Escreva o script SQL para alterar a situação de todos os alunos que estão sem 
+email cadastrado para "situação pendente"
+
+
+------------------------------------------------------------------------------
+update alunos 
+set situacao = "pendente" 
+where email = null
+------------------------------------------------------------------------------
+
+
+03)-Escreva o script SQL para listar o nome de cada disciplina oferecida pela
+universidade e a quantidade de alunos matriculados no semestre 2012‐01.
+
+
+------------------------------------------------------------------------------
+select disciplinas.nome from disciplinas;
+
+select matriculas.semestre from matriculas 
+where semestre = 2012-01;
+------------------------------------------------------------------------------
+
+
+04)-Escreva o script SQL para listar a descrição de todos os semestres e a 
+quantidade de alunos matriculados.
+
+
+------------------------------------------------------------------------------
+select semestre_descricao from matriculas 
+
+select alunos.id_aluno from alunos
+------------------------------------------------------------------------------
+
+
+05)-Escreva o script SQL para listar o nome das disciplinas que tiveram mais de uma
+turma oferecida em um mesmo semestre.
+
+
+------------------------------------------------------------------------------
+select * from disciplinas
+where id_turma >= 1
+and semestre >= 2021-1
+------------------------------------------------------------------------------
