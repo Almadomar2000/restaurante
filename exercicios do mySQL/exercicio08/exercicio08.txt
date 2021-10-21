@@ -1,0 +1,84 @@
+criei as tabelas para melhor compreenção da atividade
+ 
+------------------------------------------------------------------------------
+
+create table agencias (
+id_cod_agencia bigint unsigned not null unique primary key auto_increment, 
+nome varchar(100)not null,
+endereco varchar(100) not null
+);
+
+create table Funcionarios (
+id_cod_Funcionario bigint unsigned not null unique primary key auto_increment,
+id_cod_agencia bigint unsigned not null,
+nome varchar(100) not null,
+cpf int not null unique,
+endereco varchar(150),
+salario double,
+foreign key (id_cod_agencia) references agencias(id_cod_agencia)
+);
+
+create table clientes (
+id_cod_cliente bigint unsigned not null unique primary key auto_increment,
+id_cod_agencia bigint unsigned not null,
+nome varchar(100) not null,
+cpf int not null unique,
+data_adesao date not null,
+telefone varchar(100) not null,
+endereco varchar(150) not null,
+foreign key (id_cod_agencia) references agencias(id_cod_agencia)
+);
+
+create table contas (
+id_cod_conta bigint unsigned not null unique primary key auto_increment,
+id_cod_cliente bigint unsigned not null,
+data_abertura date not null,
+limite double not null,
+saldo double not null,
+tipo varchar(1),
+foreign key (id_cod_cliente) references clientes(id_cod_cliente)
+);
+
+create table operacoes (
+id_cod_operacao bigint unsigned not null unique primary key auto_increment,
+id_cod_conta bigint unsigned not null,
+tipo varchar(1) not null,
+data_operacao date not null,
+valor double not null,
+foreign key (id_cod_conta) references contas(id_cod_conta)
+);
+
+------------------------------------------------------------------------------
+
+Identificar onde estarão os maiores volumes de dados (quais tabelas)
+a fim de otimizar;
+
+R= clientes e funcionarios
+
+------------------------------------------------------------------------------
+
+Definir os tipos adequados para as colunas das tabelas bem como as
+suas chaves primárias;
+
+R= mudar salario para decimal(10,2) ou (10,4) para ser mais preciso
+e em clientes mudar "limite e saldo" para decimal(10,2)
+e em operação mudar o "valor" de double para decimal (10,2)
+------------------------------------------------------------------------------
+
+   Analisar os relacionamentos visando garantir a integridade
+referencial das informações, seja ela tratada pelo banco ou pela
+aplicação;
+
+R= 
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
