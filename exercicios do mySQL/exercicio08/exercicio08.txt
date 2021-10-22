@@ -50,14 +50,14 @@ foreign key (id_cod_conta) references contas(id_cod_conta)
 
 ------------------------------------------------------------------------------
 
-Identificar onde estarão os maiores volumes de dados (quais tabelas)
+1. Identificar onde estarão os maiores volumes de dados (quais tabelas)
 a fim de otimizar;
 
 R= clientes e funcionarios
 
 ------------------------------------------------------------------------------
 
-Definir os tipos adequados para as colunas das tabelas bem como as
+2. Definir os tipos adequados para as colunas das tabelas bem como as
 suas chaves primárias;
 
 R= mudar salario para decimal(10,2) ou (10,4) para ser mais preciso
@@ -65,20 +65,20 @@ e em clientes mudar "limite e saldo" para decimal(10,2)
 e em operação mudar o "valor" de double para decimal (10,2)
 ------------------------------------------------------------------------------
 
-   Analisar os relacionamentos visando garantir a integridade
+3. Analisar os relacionamentos visando garantir a integridade
 referencial das informações, seja ela tratada pelo banco ou pela
 aplicação;
 
-R= 
+R= acho que esta tudo certo
 
 ------------------------------------------------------------------------------
 
+4. Definir os índices a serem criados.
 
 
+R= em funcionarios e clientes criar indexes nos campos "nome e cpf"
 
-
-
-
+------------------------------------------------------------------------------
 
 
 
