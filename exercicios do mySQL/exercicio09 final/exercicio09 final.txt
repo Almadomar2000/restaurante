@@ -1,0 +1,327 @@
+------------------------------------------------------------------------------
+create table ufs (
+id_uf bigint unsigned not null unique primary key auto_increment,
+sigla char(2) not null,
+nome varchar(150) not null
+);
+
+create table gravidades (
+id_gravidade bigint unsigned not null unique primary key auto_increment,
+descricao varchar(150) not null,
+pontos int not null
+);
+
+create table agentes (
+id_agente bigint unsigned not null unique primary key auto_increment,
+nome varchar(150) not null,
+data_contratacao date not null
+);
+
+create table categorias (
+id_categoria bigint unsigned not null unique primary key auto_increment,
+descricao varchar(150) not null
+);
+
+create table municipios (
+id_municipio bigint unsigned not null unique primary key auto_increment,
+id_uf bigint unsigned not null,
+nome varchar(150) not null,
+foreign key (id_uf) references ufs(id_uf)
+);
+
+create table local_infracoes (
+id_local_infracao bigint unsigned not null unique primary key auto_increment,
+id_municipio bigint unsigned not null,
+descricao varchar(150) not null,
+velocidade_permitida float not null,
+foreign key (id_municipio) references municipios(id_municipio)
+);
+
+create table proprietarios (
+id_proprietario bigint unsigned not null unique primary key auto_increment,
+id_municipio bigint unsigned not null,
+nome varchar(150) not null,
+cpf char(11) not null,
+data_nascimento date not null,
+sexo char(1) not null,
+endereco varchar(150) not null,
+bairro varchar(100) not null,
+cnh char(11) not null,
+pontuacao int not null,
+foreign key (id_municipio) references municipios(id_municipio)
+);
+
+create table tipo_infracoes (
+id_tipo_infracao bigint unsigned not null unique primary key auto_increment,
+id_gravidade bigint unsigned not null,
+codigo varchar(10) not null,
+enquadramento_ctb varchar(100) not null,
+valor decimal(8,2) not null,
+foreign key (id_gravidade) references gravidades(id_gravidade)
+);
+
+create table modelos(
+id_modelo bigint unsigned not null unique primary key auto_increment,
+id_categoria bigint unsigned not null,
+descricao varchar(150) not null,
+foreign key (id_categoria) references categorias(id_categoria)
+);
+
+create table veiculos (
+id_veiculo bigint unsigned not null unique primary key auto_increment,
+id_proprietario bigint unsigned not null,
+id_modelo bigint unsigned not null,
+placa char(7) not null,
+renavam char(9) not null,
+situacao char(1),
+foreign key (id_proprietario) references proprietarios(id_proprietario),
+foreign key (id_modelo) references modelos(id_modelo)
+);
+
+create table infracoes (
+id_infracao bigint unsigned not null unique primary key auto_increment,
+id_agente bigint unsigned not null,
+id_tipo_infracao bigint unsigned not null,
+id_local_infracao bigint unsigned not null,
+id_veiculo bigint unsigned not null,
+data_infracao datetime,
+foreign key (id_agente) references agentes(id_agente),
+foreign key (id_tipo_infracao) references tipo_infracoes(id_tipo_infracao),
+foreign key (id_local_infracao) references local_infracoes(id_local_infracao),
+foreign key (id_veiculo) references veiculos(id_veiculo)
+); 
+
+------------------------------------------------------------------------------
+
+insert into ufs (sigla, nome)
+values ("SC", "Santa Catarina"),
+("SE", "Sergipe"),
+("PE", "Pernambuco"),
+("AL", "Alagoas");
+
+insert into categorias (descricao)
+values ("Sedan"),
+("Picape"),
+("SUV"),
+("Jeep");
+
+insert into agentes (nome, data_contratacao)
+values ("serjão matador de onça", "2000-01-25"),
+("cleber", "2000-02-25"),
+("JJJ", "2000-03-25"),
+("venom", "2000-03-25");
+
+insert into gravidades (descricao, pontos)
+values ("batida de carro", 4),
+("batida de carro", 3),
+("batida de carro", 2),
+("batida de carro", 1);
+
+insert into municipios (id_uf, nome)
+values (1, "joinville"),
+(2, "florianopolis"),
+(3, "blumenal"),
+(4, "Concórdia");
+
+insert into local_infracoes (id_municipio, descricao, velocidade_permitida)
+values (1, "estrada", "60"),
+(2, "estrada", "70"),
+(3, "estrada", "80"),
+(4, "estrada", "200");
+
+insert into proprietarios (id_municipio, nome, cpf, data_nascimento, sexo, endereco, bairro, cnh, pontuacao)
+values (1, "joão", "12345678901", "1960-03-26", "1", "rua caxias", "arvoredo", "categoria C", "10"),
+(2, "pedro", "12345678902", "1960-05-26", "1", "rua caxias", "cristal", "categoria B", "10"),
+(3, "cleiton", "12345678903", "1960-07-26", "1", "rua caxias", "gruta", "categoria D", "10");
+
+insert into modelos (id_categoria, descricao)
+values (1, "jipe"),
+(2, "picape"),
+(3, "sedan"),
+(4, "SUV");
+
+insert into veiculos (id_proprietario, id_modelo, placa, renavam, situacao)
+values (1, 1, "1234561", 1, 1),
+(2, 2, "1234562", 2, 2),
+(3, 3, "1234563", 3, 1);
+
+insert into tipo_infracoes (id_gravidade, codigo, enquadramento_ctb, valor)
+values (1, 1, "745 5", "130.16"),
+(1, 1, "745 5", "130");
+
+insert into infracoes (id_agente, id_tipo_infracao, id_local_infracao, id_veiculo, data_infracao)
+values (1, 1, 1, 2, "2021-10-22 22:10:00"),
+(1, 1, 1, 2, "2021-10-22 10:22:00");
+
+------------------------------------------------------------------------------
+
+select * from veiculos 
+
+select proprietarios.pontuacao from proprietarios 
+
+select veiculos.id_modelo , modelos.descricao from veiculos
+inner join modelos 
+
+------------------------------------------------------------------------------
+
+create table pais (
+id_pais bigint unsigned primary key not null unique auto_increment,
+nome varchar(100) not null,
+idioma char(5) not null
+);
+
+create table estados (
+id_estado bigint unsigned primary key not null unique auto_increment,
+id_pais bigint unsigned not null,
+nome varchar(100) not null,
+foreign key (id_pais) references pais(id_pais)
+);
+
+create table cidades (
+id_cidade bigint unsigned primary key not null unique auto_increment,
+id_estado bigint unsigned not null,
+nome varchar(100) not null,
+foreign key (id_estado) references estados(id_estado)
+);
+
+create table clientes (
+id_cliente bigint unsigned primary key not null unique auto_increment,
+id_cidade bigint unsigned not null,
+razao_social varchar(100) not null,
+nome_fantasia varchar(100) not null,
+cnpj char(14) not null,
+endereco varchar(100) not null,
+cep char(8) not null,
+email varchar(100) not null,
+situacao char(1) not null,
+foreign key (id_cidade) references cidades(id_cidade)
+);
+
+create table vendedores (
+id_vendedor bigint unsigned primary key not null unique auto_increment,
+nome varchar(100) not null,
+telefone char(14) not null,
+email varchar(100) not null,
+endereco varchar(100) not null
+);
+
+create table vendas (
+id_venda bigint unsigned primary key not null unique auto_increment,
+id_vendedor bigint unsigned not null,
+id_cliente bigint unsigned not null,
+data_venda datetime not null,
+situacao char(1) not null,
+foreign key (id_vendedor) references vendedores(id_vendedor),
+foreign key (id_cliente) references clientes(id_cliente)
+);
+
+create table unidade_medidas (
+id_unidade_medida bigint unsigned primary key not null unique auto_increment,
+sigla char(2) not null,
+descricao varchar(100) not null
+);
+
+create table grupo_produtos (
+id_grupo_produto bigint unsigned primary key not null unique auto_increment,
+descricao varchar(100) not null
+);
+
+create table produtos (
+id_produto bigint unsigned primary key not null unique auto_increment,
+id_grupo_produto bigint unsigned not null,
+descricao varchar(100) not null,
+custo decimal(11,2) not null,
+saldo_estoque decimal(11,2) not null,
+situacao char(1) not null,
+foreign key (id_grupo_produto) references grupo_produtos(id_grupo_produto)
+);
+
+create table item_vendas (
+id_item_venda bigint unsigned primary key not null unique auto_increment,
+id_venda bigint unsigned not null,
+id_produto bigint unsigned not null,
+id_unidade_medida bigint unsigned not null,
+preco_unitario decimal(11,2) not null,
+quantidade decimal(11,2) not null,
+total decimal(11,2) not null,
+foreign key (id_venda) references vendas(id_venda),
+foreign key (id_produto) references produtos(id_produto),
+foreign key (id_unidade_medida) references unidade_medidas(id_unidade_medida)
+);
+
+insert into pais (nome, idioma)
+values ("Brasil", "PT_BR"),
+("EUA", "EN");
+
+insert into estados (id_pais, nome)
+values (1, "Santa Catarina"),
+(1, "Paraná"),
+(1, "Rio Grande do Sul"),
+(1, "São Paulo"),
+(2, "California");
+
+insert into cidades (id_estado, nome)
+values (1, "joaçaba"),
+(1, "Joinville"),
+(1, "Florianópolis"),
+(2, "Curitiba"),
+(3, "Porto Alegre"),
+(4, "São Paulo"),
+(5, "Montain View");
+
+insert into clientes (id_cidade, razao_social, nome_fantasia, cnpj, endereco, cep, email, situacao)
+values ("1", "LTDA ", "morto", "12345678904321", "sei la", "12345-71", "seila@gmail.com", "1"),
+("2", "LTDA ", "seila", "12345678904322", "num sei", "12345-72", "numsei@gmail.com", "2");
+
+insert into vendedores (nome, telefone, email, endereco)
+values ("cleber", "99999-9999", "cleber@gmail.com", "seila"),
+("joão", "99999-9998", "joão@gmail.com", "numsei");
+
+insert into vendas (id_vendedor, id_cliente, data_venda, situacao)
+values (1, 1, "2021-10-01", 1),
+(2, 2, "2021-10-01", 2),
+(3, 3, "2021-10-01", 3);
+
+insert into grupo_produtos (descricao)
+values ("o que vc quiser");
+
+insert into produtos (id_grupo_produto, descricao, custo, saldo_estoque, situacao)
+values ("1", "sei la", "130", "200", "1"),
+("1", "num sei", "200", "10", "2");
+
+insert into unidade_medidas (sigla, descricao)
+values ("Cm", "200Cm"),
+("Cm", "400Cm")
+
+insert into item_vendas (id_venda, id_produto, id_unidade_medida, preco_unitario, quantidade, total)
+values (1, 1, 1, "3000", "4000", "20000"),
+(2, 2, 2, "3000", "4000", "20000")
+
+------------------------------------------------------------------------------
+
+Valor total vendido em Setembro;
+
+select vendas.data_venda from vendas
+where data_venda >= 2021-10-01
+
+------------------------------------------------------------------------------
+
+ Item mais vendido em Setembro;
+
+
+select vendas.id_venda , item_vendas.total from vendas
+inner join item_vendas
+where data_venda >= 2021-10-01
+and total >= 2000
+
+------------------------------------------------------------------------------
+
+Total de vendas por cidade;
+
+
+select cidades.id_cidade , item_vendas.total from cidades
+inner join clientes
+inner join vendas
+inner join item_vendas
+where total >= 1
+------------------------------------------------------------------------------
