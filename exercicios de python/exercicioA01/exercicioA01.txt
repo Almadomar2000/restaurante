@@ -1,0 +1,8 @@
+import unittest
+
+class soma_de_numeros(unittest.TestCase):
+
+    v_numero1 = 8
+    v_numero2 = 3
+
+    print(v_numero1 + v_numero2)
