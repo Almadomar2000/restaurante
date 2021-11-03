@@ -1,8 +1,14 @@
 import unittest
 
+
 class soma_de_numeros(unittest.TestCase):
 
-    v_numero1 = 8
-    v_numero2 = 3
+    def soma(self):
+        self.v_numero1 = 9
+        self.v_numero2 = 9
 
-    print(v_numero1 + v_numero2)
+        print(self.v_numero1 + self.v_numero2)
+
+
+if __name__ == '__main__':
+    unittest.main()
