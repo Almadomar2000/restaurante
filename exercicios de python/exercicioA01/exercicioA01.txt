@@ -3,12 +3,11 @@ import unittest
 
 class soma_de_numeros(unittest.TestCase):
 
-    def soma(self):
-        self.v_numero1 = 9
-        self.v_numero2 = 9
+    def soma_de_numeros(self):
+        self.a = 9
+        self.b = 8
 
-        print(self.v_numero1 + self.v_numero2)
+        print(self.a + self.b)
 
-
-if __name__ == '__main__':
-    unittest.main()
+        def soma(a, b):
+            return a + b
